@@ -9,6 +9,21 @@ var center_velocity_threshold: float = 3.0
 
 @onready var connect_collision_shape_2d = $ConnectCollisionShape2D
 
+var neighbors: Array[RigidBody2D] = []
+@export var line_color: Color = Color.RED
+
+func _draw() -> void:
+	for neighbor in neighbors:
+		if is_instance_valid(neighbor):
+			var local_target = to_local(neighbor.global_position)
+			draw_line(Vector2.ZERO, local_target, line_color, 2.0)
+
+
+func _process(_delta: float) -> void:
+	queue_redraw()
+	
+
+
 func _physics_process(delta: float) -> void:
 	var velocity_threshold = 1.0
 	var gravity_strength = 980

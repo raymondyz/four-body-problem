@@ -9,7 +9,7 @@ radius = 11.075434
 
 [node name="BallPiece" type="RigidBody2D"]
 gravity_scale = 0.0
-linear_damp = 5.0
+linear_damp = 4.0
 script = ExtResource("1_q1k2p")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
