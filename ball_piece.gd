@@ -7,7 +7,7 @@ var center_velocity_threshold: float = 3.0
 @export var p1_color: Color = Color.WHITE
 @export var p2_color: Color = Color.BLACK
 
-@onready var connect_collision_shape_2d = $ConnectCollisionShape2D
+@onready var connect_area_2d: Area2D = $ConnectArea2D
 
 var neighbors: Array[RigidBody2D] = []
 @export var line_color: Color = Color.RED
@@ -24,24 +24,34 @@ func _process(_delta: float) -> void:
 	
 
 
-func _physics_process(delta: float) -> void:
-	var velocity_threshold = 1.0
+func _physics_process(_delta: float) -> void:
+	#var velocity_threshold = 1.0
 	var gravity_strength = 980
 	
-	if global_position.length() > 5:
-		apply_central_force(global_position.direction_to(Vector2.ZERO) * gravity_strength)
-	elif (linear_velocity.length() < center_velocity_threshold):
-		freeze = true
+	apply_central_force(global_position.direction_to(Vector2.ZERO) * gravity_strength)
 	
-	if linear_velocity.length() < velocity_threshold:
-		low_velocity_timer += delta
-		if low_velocity_timer >= freeze_time:
-			freeze = true
-	else:
-		low_velocity_timer = 0.0
+	
+	#if linear_velocity.length() < velocity_threshold:
+		#low_velocity_timer += delta
+		#if low_velocity_timer >= freeze_time:
+			#freeze = true
+	#else:
+		#low_velocity_timer = 0.0
+
+func _on_body_entered(body):
+	var is_same_color: bool = body.is_in_group("Black")
+	if is_in_group("White"):
+		is_same_color = body.is_in_group("White")
+	
+	
+	print("Detected body is same color: ", is_same_color)
+
 
 
 func _ready():
+	connect_area_2d.body_entered.connect(_on_body_entered)
+	
+	
 	if (Global.is_white_turn):
 		modulate = p1_color
 		add_to_group("White")
