@@ -8,6 +8,7 @@
 radius = 10.415996
 
 [node name="BallPiece" type="RigidBody2D"]
+self_modulate = Color(0.2393471, 0.23934716, 0.23934707, 1)
 gravity_scale = 0.0
 linear_damp = 4.0
 script = ExtResource("1_q1k2p")
