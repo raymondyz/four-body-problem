@@ -1,26 +1,31 @@
 extends RigidBody2D
 
+
+@export var connecting_line:PackedScene
+var connecting_line_instances:Array = []
+
+var connections = {} # Key: body, Value: Line2D instance
+
+
 var low_velocity_timer: float = 0.0
 var freeze_time: float = 1.0
 var center_velocity_threshold: float = 3.0
-
 @export var p1_color: Color = Color.WHITE
 @export var p2_color: Color = Color.BLACK
-
 @onready var connect_area_2d: Area2D = $ConnectArea2D
-
-var connected_bodies: Array = []
 @export var line_color: Color = Color.RED
 
-func _draw() -> void:
-	for body in connected_bodies:
+
+
+func draw_connecting_line() -> void:
+	for body in connections:
 		if is_instance_valid(body):
-			var local_target = to_local(body.global_position)
-			draw_line(Vector2.ZERO, local_target, line_color, 2.0)
+			connections[body].points = [Vector2.ZERO, to_local(body.global_position)]
+	
 
 
 func _process(_delta: float) -> void:
-	queue_redraw()
+	draw_connecting_line()
 	
 
 
@@ -30,13 +35,6 @@ func _physics_process(_delta: float) -> void:
 	
 	apply_central_force(global_position.direction_to(Vector2.ZERO) * gravity_strength)
 	
-	
-	#if linear_velocity.length() < velocity_threshold:
-		#low_velocity_timer += delta
-		#if low_velocity_timer >= freeze_time:
-			#freeze = true
-	#else:
-		#low_velocity_timer = 0.0
 
 func _on_body_entered(body):
 	
@@ -44,16 +42,20 @@ func _on_body_entered(body):
 		return
 	var same_group = (is_in_group("White") and body.is_in_group("White")) or (is_in_group("Black") and body.is_in_group("Black"))
 	
-	if same_group and body not in connected_bodies:
-		connected_bodies.append(body)
-		body.connected_bodies.append(self)
+	if same_group and !(connections.has(body)):
+		# establish a connection:
+		var line = connecting_line.instantiate()
+		line.self_modulate = line_color
+		add_child(line)
+		connections[body] = line
 	
 
 func _on_body_exited(body):
 	# Remove from connected bodies if present
-	if body in connected_bodies:
-		connected_bodies.erase(body)
-		body.connected_bodies.erase(self)
+	if connections.has(body):
+		var line = connections[body]
+		line.queue_free()
+		connections.erase(body)
 
 @onready var polygon_2d: Polygon2D = $Polygon2D
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ca8du4avx1yur"]
+[gd_scene load_steps=5 format=3 uid="uid://ca8du4avx1yur"]
 
-[ext_resource type="Script" uid="uid://bcwvk66op7nba" path="res://ball_piece.gd" id="1_q1k2p"]
+[ext_resource type="Script" uid="uid://bcwvk66op7nba" path="res://ball_piece/ball_piece.gd" id="1_q1k2p"]
+[ext_resource type="PackedScene" uid="uid://dmr1dhrxtu8qr" path="res://connecting_visuals/connecting_line_2d.tscn" id="2_6lmgn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_803en"]
 
@@ -12,6 +13,8 @@ self_modulate = Color(0.2393471, 0.23934716, 0.23934707, 1)
 gravity_scale = 0.0
 linear_damp = 4.0
 script = ExtResource("1_q1k2p")
+connecting_line = ExtResource("2_6lmgn")
+line_color = Color(0, 1, 1, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_803en")

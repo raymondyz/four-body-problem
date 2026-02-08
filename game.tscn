@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b8pt6dxfyal5k"]
 
-[ext_resource type="PackedScene" uid="uid://ca8du4avx1yur" path="res://ball_piece.tscn" id="1_80nbo"]
+[ext_resource type="PackedScene" uid="uid://ca8du4avx1yur" path="res://ball_piece/ball_piece.tscn" id="1_80nbo"]
 [ext_resource type="Script" uid="uid://bxvoflughc76v" path="res://game.gd" id="1_e2o6t"]
 
 [node name="Game" type="Node2D"]

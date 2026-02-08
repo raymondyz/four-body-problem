@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://dmr1dhrxtu8qr"]
+
+[node name="ConnectingLine2D" type="Line2D"]
+z_index = 5
+z_as_relative = false
+points = PackedVector2Array(-50, 0, 50, 0)
+width = 3.0
